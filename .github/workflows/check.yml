@@ -1,0 +1,15 @@
+# One request from GitHub's servers, to confirm the Swiss API answers them.
+name: check
+on: workflow_dispatch
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          python3 -c "
+          import collector
+          status, response, error = collector.fetch('8587057')
+          print('status', status, 'error', error)
+          print('rows', len(response['stationboard']), 'first', response['stationboard'][0]['stop']['departure'])
+          "
